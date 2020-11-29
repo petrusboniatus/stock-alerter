@@ -1,2 +1,2 @@
 # stock-aleter
-Performs alerts in telegram and Raspberry Buzzer if there is stock of certain articles
+Performs alerts in telegram and raspberry pi Buzzer if there is stock of certain articles
