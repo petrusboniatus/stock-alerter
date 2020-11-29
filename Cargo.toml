@@ -1,0 +1,23 @@
+[package]
+name = "stock-aleter"
+version = "0.1.0"
+authors = ["petrusboniatus <pedroba@ext.inditex.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+gpio-cdev = "0.4.0"
+reqwest = { version = "0.10", features = ["json", "blocking"] }
+tokio = { version = "0.2", features = ["full"] }
+select = "0.5.0"
+telegram-bot = "0.7"
+futures = "0.3.8"
+chrono = "0.4"
+clap = "3.0.0-beta.2"
+rand = "0.7.3"
+
+[buildq]
+# Pi 2/3/4
+[target.armv7-unknown-linux-gnueabihf]
+linker = "arm-none-linux-gnueabihf-gcc"
