@@ -22,7 +22,7 @@ struct Opts {
     #[clap(long)]
     min_duration: u64,
     #[clap(long)]
-    max_added_duration: u64
+    max_added_duration: u64,
 }
 
 #[allow(unreachable_code)]
@@ -32,18 +32,14 @@ async fn main() -> Result<(), Error> {
 
     let urls: Vec<String> = configured_urls(&opts);
 
-    println!("{:?}", urls);
-
     loop {
-        let vec = urls.clone();
-        let opts1 = opts.clone();
-        loop_on_uris(vec, opts1).await.unwrap();
+        loop_on_uris(&urls, &opts).await.unwrap();
     }
 
     Ok(())
 }
 
-async fn loop_on_uris(uris: Vec<String>, opts: Opts) -> Result<(), Error> {
+async fn loop_on_uris(uris: &Vec<String>, opts: &Opts) -> Result<(), Error> {
     for uri in uris {
         if has_stock(&uri).await.expect("error on get") {
             print!("Stock");
@@ -56,9 +52,8 @@ async fn loop_on_uris(uris: Vec<String>, opts: Opts) -> Result<(), Error> {
 
         let random: u64 = rand::thread_rng().gen_range(0, opts.max_added_duration * 1000);
         let random_duration = Duration::from_millis(random);
-        let sleep =  Duration::from_secs(opts.min_duration) + random_duration;
+        let sleep = Duration::from_secs(opts.min_duration) + random_duration;
         tokio_sleep(sleep).await;
-
     }
     Ok(())
 }
@@ -92,7 +87,6 @@ async fn buzz_in_raspy() -> Result<(), gpio_cdev::Error> {
     h.set_value(1)?;
     tokio_sleep(Duration::from_secs(1)).await;
     h.set_value(0)?;
-    tokio_sleep(Duration::from_secs(1)).await;
 
 
     return Ok(());
